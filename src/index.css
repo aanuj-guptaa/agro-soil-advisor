@@ -1,0 +1,151 @@
+@import "tailwindcss";
+
+@theme {
+  --color-paper: #f3eee3;
+  --color-paper-2: #ebe4d4;
+  --color-paper-3: #e1d8c4;
+  --color-ink: #1c2419;
+  --color-ink-2: #39432f;
+  --color-muted: #6c705f;
+  --color-line: rgb(28 36 25 / 0.14);
+  --color-soil: #6b4329;
+  --color-soil-dark: #4a2e1c;
+  --color-clay: #b4623f;
+  --color-wheat: #d8a23e;
+  --color-wheat-light: #ecd29a;
+  --color-leaf: #3e6b39;
+  --color-sprout: #8fb46a;
+
+  --color-zone-sub: #4f7a4a;
+  --color-zone-central: #d8a23e;
+  --color-zone-sw: #c0714a;
+
+  --font-display: "Fraunces", Georgia, serif;
+  --font-sans: "Instrument Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    font-family: var(--font-sans);
+    background: var(--color-paper);
+    overflow-x: hidden;
+  }
+  ::selection {
+    background: var(--color-wheat);
+    color: var(--color-ink);
+  }
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    font-variation-settings: "SOFT" 30, "opsz" 144;
+    letter-spacing: -0.02em;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-leaf);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+/* Lenis */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+
+/* Paper grain over the whole page */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  pointer-events: none;
+  z-index: 60;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Range input styling */
+input[type="range"].soil-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 28px;
+  background: transparent;
+  cursor: pointer;
+}
+input[type="range"].soil-range::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--color-ink) var(--fill, 50%), var(--color-paper-3) var(--fill, 50%));
+}
+input[type="range"].soil-range::-moz-range-track {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--color-paper-3);
+}
+input[type="range"].soil-range::-moz-range-progress {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--color-ink);
+}
+input[type="range"].soil-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 18px;
+  width: 18px;
+  margin-top: -7px;
+  border-radius: 999px;
+  background: var(--color-paper);
+  border: 2px solid var(--color-ink);
+  transition: transform 0.2s var(--ease-out-soft);
+}
+input[type="range"].soil-range::-moz-range-thumb {
+  height: 14px;
+  width: 14px;
+  border-radius: 999px;
+  background: var(--color-paper);
+  border: 2px solid var(--color-ink);
+}
+input[type="range"].soil-range:active::-webkit-slider-thumb { transform: scale(1.2); }
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+input[type="number"] { -moz-appearance: textfield; }
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track { animation: marquee 70s linear infinite; }
+
+@keyframes shimmer {
+  from { background-position: -200% 0; }
+  to { background-position: 200% 0; }
+}
+.shimmer {
+  background: linear-gradient(90deg, var(--color-paper-2) 0%, var(--color-paper-3) 50%, var(--color-paper-2) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track, .shimmer { animation: none; }
+}
+
+@media print {
+  .no-print { display: none !important; }
+  .grain::after { display: none; }
+}
